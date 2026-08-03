@@ -25,39 +25,42 @@
 
         .header-top {
             text-align: center;
-            color: #d96f1d;
+            color: #ec7610; /* Closer to the orange in the image */
             margin-bottom: 20px;
+            font-family: Arial, sans-serif;
         }
 
         .header-top .swami {
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 11px;
+            font-weight: 900;
             margin-bottom: 5px;
+            letter-spacing: 0.5px;
         }
 
         .header-top h1 {
-            font-family: 'Georgia', serif; /* Use a similar font for the logo text */
-            font-size: 42px;
-            font-weight: 900;
+            font-family: 'Algerian', 'Georgia', serif; /* Algerian matches the image */
+            font-size: 40px;
+            font-weight: normal;
             margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .address {
             text-align: center;
-            color: #d96f1d;
+            color: #ec7610;
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 5px;
+            font-family: Arial, sans-serif;
         }
 
         .subtitle {
             text-align: center;
-            color: #d96f1d;
-            font-size: 12px;
+            color: #ec7610;
+            font-size: 11px;
             font-weight: bold;
             margin-bottom: 10px;
+            font-family: Arial, sans-serif;
         }
 
         .divider {
@@ -141,6 +144,24 @@
             padding: 5px;
             font-size: 14px;
             font-weight: bold;
+            font-family: Arial, sans-serif;
+        }
+
+        #bill-table {
+            height: 500px; /* Makes the table big even with 1 row */
+        }
+
+        #table-body td {
+            vertical-align: top;
+            padding-top: 10px;
+        }
+
+        .data-row {
+            height: 1px; /* Forces this row to be as small as possible, letting spacer row take up the rest */
+        }
+
+        .spacer-row td {
+            border-bottom: none; /* Let the tfoot handle the bottom border */
         }
 
         th {
@@ -157,6 +178,9 @@
             width: 95%;
             border: none;
             background-color: transparent;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .num-input {
@@ -164,6 +188,9 @@
             border: none;
             background-color: transparent;
             text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
         }
         
         /* Make table inputs look editable but clean */
@@ -229,9 +256,13 @@
 
         /* Print Specific Styles */
         @media print {
+            @page {
+                size: A4;
+                margin: 0; /* Removes browser header and footer */
+            }
             body {
                 background-color: white;
-                padding: 0;
+                padding: 1.5cm; /* Add padding here instead of page margin */
             }
             .bill-container {
                 box-shadow: none;
@@ -254,11 +285,6 @@
                 width: auto;
                 min-width: 250px;
             }
-            
-            @page {
-                size: A4;
-                margin: 2cm;
-            }
         }
     </style>
 </head>
@@ -268,7 +294,7 @@
         
         <div class="header-top">
             <div class="swami">SWAMI SHREEJI</div>
-            <h1 style="font-family: 'Arial Black', Impact, sans-serif;">YUVRAJ REFRIGERATION</h1>
+            <h1>YUVRAJ REFRIGERATION</h1>
         </div>
 
         <div class="address">
@@ -315,12 +341,21 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                <tr>
+                <tr class="data-row">
                     <td>1</td>
                     <td class="col-desc"><input type="text" class="desc-input" value="Chilar ac temperature meter riplesh With lebor"></td>
                     <td><input type="number" class="num-input qty" value="1" min="1" oninput="calculateRow(this)"></td>
                     <td><input type="number" class="num-input rate" value="2000" min="0" oninput="calculateRow(this)"></td>
                     <td><input type="text" class="num-input amount" value="2000" readonly></td>
+                    <td class="print-btn-container" style="border:none;"></td>
+                </tr>
+                <!-- Spacer row to push content up and fill empty space -->
+                <tr class="spacer-row">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td class="print-btn-container" style="border:none;"></td>
                 </tr>
             </tbody>
@@ -376,6 +411,7 @@
             const rowCount = tbody.rows.length + 1;
             
             const tr = document.createElement('tr');
+            tr.className = 'data-row';
             tr.innerHTML = `
                 <td>${rowCount}</td>
                 <td class="col-desc"><input type="text" class="desc-input" placeholder="Description"></td>
@@ -385,7 +421,9 @@
                 <td class="print-btn-container" style="border:none;"><button class="btn btn-danger" onclick="removeRow(this)">X</button></td>
             `;
             
-            tbody.appendChild(tr);
+            // Insert before the spacer row
+            const spacerRow = tbody.querySelector('.spacer-row');
+            tbody.insertBefore(tr, spacerRow);
             updateSrNo();
             calculateTotal();
         }
@@ -399,8 +437,9 @@
 
         function updateSrNo() {
             const tbody = document.getElementById('table-body');
-            for (let i = 0; i < tbody.rows.length; i++) {
-                tbody.rows[i].cells[0].innerText = i + 1;
+            const dataRows = tbody.querySelectorAll('.data-row');
+            for (let i = 0; i < dataRows.length; i++) {
+                dataRows[i].cells[0].innerText = i + 1;
             }
         }
         
