@@ -210,11 +210,16 @@
 
         .signatures {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
+            justify-content: flex-end;
             margin-top: 20px;
             font-size: 14px;
             font-weight: bold;
+        }
+
+        .signature-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 60px;
         }
 
@@ -373,8 +378,10 @@
         </div>
 
         <div class="signatures">
-            <div>Yuvraj Refrigeration</div>
-            <div>Proprietor`</div>
+            <div class="signature-box">
+                <div>Yuvraj Refrigeration</div>
+                <div>Proprietor</div>
+            </div>
         </div>
 
         <div class="print-btn-container">
