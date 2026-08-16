@@ -29,7 +29,42 @@
             margin-bottom: 20px;
             font-family: Arial, sans-serif;
         }
+.qty-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
 
+.qty-wrapper .qty {
+    width: 45%;
+}
+
+.unit-select {
+    width: 50%;
+    border: 1px dashed transparent;
+    background-color: rgba(255, 255, 0, 0.2);
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 2px;
+    outline: none;
+}
+
+.unit-select:hover,
+.unit-select:focus {
+    border-bottom: 1px dashed #999;
+}
+
+@media print {
+    .unit-select {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        background: transparent !important;
+        padding: 0;
+    }
+}
         .header-top .swami {
             font-size: 11px;
             font-weight: 900;
@@ -339,7 +374,7 @@
                 <tr>
                     <th class="col-sr">Sr.<br>No.</th>
                     <th class="col-desc">Description</th>
-                    <th class="col-nos">Nos.</th>
+                    <th class="col-nos">Qty.</th>
                     <th class="col-rate">Rate</th>
                     <th class="col-amount">Amount<br>(Rs)</th>
                     <th class="print-btn-container col-action" style="width: 5%; border:none;">Action</th>
@@ -348,7 +383,24 @@
             <tbody id="table-body">
                 <tr class="data-row">
                     <td>1</td>
-                    <td class="col-desc"><input type="text" class="desc-input" value="Chilar ac temperature meter riplesh With lebor"></td>
+                    <td>
+    <div class="qty-wrapper">
+        <input type="number" class="num-input qty" value="1" min="0"
+               oninput="calculateRow(this)">
+        <select class="unit-select" onchange="calculateRow(this)">
+            <option value="Nos">Nos</option>
+            <option value="Kg">Kg</option>
+            <option value="Gram">Gram</option>
+            <option value="Meter">Meter</option>
+            <option value="Feet">Feet</option>
+            <option value="Hour">Hour</option>
+            <option value="Day">Day</option>
+            <option value="Set">Set</option>
+            <option value="Box">Box</option>
+            <option value="Piece">Piece</option>
+        </select>
+    </div>
+</td>
                     <td><input type="number" class="num-input qty" value="1" min="1" oninput="calculateRow(this)"></td>
                     <td><input type="number" class="num-input rate" value="2000" min="0" oninput="calculateRow(this)"></td>
                     <td><input type="text" class="num-input amount" value="2000" readonly></td>
